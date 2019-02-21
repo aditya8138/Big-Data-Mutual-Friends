@@ -41,7 +41,7 @@ public class Top10Friends {
     public static class Reduce1 extends Reducer<Text, Text, Text, IntWritable>{
         public  void reduce(Text key, Iterable<Text> values, Context context) throws IOException,InterruptedException{
             int count = 0;
-            Map<String, Integer> friendCount = new HashMap<>();
+            HashMap<String, Integer> friendCount = new HashMap<>();
             for(Text friends : values){
                 String[] friendsArr  =  friends.toString().split(",");
                 for(String friend: friendsArr){
@@ -51,9 +51,10 @@ public class Top10Friends {
                         friendCount.put(friend,1);
                     }
                 }
-                IntWritable fCount= new IntWritable(count);
-                context.write(key, fCount);
+
             }
+            IntWritable fCount= new IntWritable(count);
+            context.write(key, fCount);
 
         }
     }
@@ -66,7 +67,8 @@ public class Top10Friends {
     }
 
     public static  class  Reduce2 extends  Reducer<IntWritable, Text, Text, IntWritable>{
-        public void reduce(IntWritable key, Iterable<Text> values, Context context) throws IOException, InterruptedException{
+        public void reduce(IntWritable key, Iterable<Text> values,
+                           Reducer<IntWritable, Text, Text, IntWritable>.Context context) throws IOException, InterruptedException{
             // final reduce method to return top 10 mutual friends
             HashMap<String, Integer> mfMap = new HashMap<>();
             int count = 1;
@@ -79,13 +81,15 @@ public class Top10Friends {
             }
 
             Compare value = new Compare(mfMap);
-            Map<String,Integer> sorted = new TreeMap<>(value);
+            TreeMap<String,Integer> sorted = new TreeMap<>(value);
             sorted.putAll(mfMap);
 
-            for (Map.Entry<String, Integer> entry : sorted.entrySet()) {
+
+
+           for (Map.Entry<String, Integer> mf : sorted.entrySet()) {
 
                 if (count <= 10) {
-                    context.write(new Text(entry.getKey()), new IntWritable(entry.getValue()));
+                    context.write(new Text(mf.getKey()), new IntWritable(mf.getValue()));
 
                 }
                 else
@@ -100,7 +104,7 @@ public class Top10Friends {
     public static class Compare implements Comparator<String>{
         HashMap<String, Integer> map;
 
-        private Compare(HashMap<String, Integer> map){
+        public Compare(HashMap<String, Integer> map){
             this.map=map;
         }
 
@@ -143,6 +147,8 @@ public class Top10Friends {
             job2.setOutputValueClass(IntWritable.class);
             job2.setMapperClass(Top10Friends.Map2.class);
             job2.setReducerClass(Top10Friends.Reduce2.class);
+            job2.setMapOutputKeyClass(IntWritable.class);
+            job2.setMapOutputValueClass(Text.class);
             job2.setInputFormatClass(TextInputFormat.class);
             job2.setOutputFormatClass(TextOutputFormat.class);
             job2.setNumReduceTasks(1);

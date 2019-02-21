@@ -1,24 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2b6dd105-ee8a-48ef-95cd-95ccabe47f1a" name="Default Changelist" comment="Adding job chaining to find top 10 friends">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Big Data Assignment 1/MutualFriendTemp$Map.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Big Data Assignment 1/MutualFriendTemp$Reduce.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Big Data Assignment 1/MutualFriendTemp.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Big Data Assignment 1/MutualFriends$Map.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Big Data Assignment 1/MutualFriends$Reduce.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Big Data Assignment 1/MutualFriends.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Big Data Assignment 1/Top10Friends$Map1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Big Data Assignment 1/Top10Friends.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Big Data Assignment 1/Top10MutualFriendsTemp$TopTen_Map1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Big Data Assignment 1/Top10MutualFriendsTemp$TopTen_Map2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Big Data Assignment 1/Top10MutualFriendsTemp$TopTen_Reduce1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Big Data Assignment 1/Top10MutualFriendsTemp$TopTen_Reduce2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Big Data Assignment 1/Top10MutualFriendsTemp$ValueComparator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Big Data Assignment 1/Top10MutualFriendsTemp.class" beforeDir="false" />
+    <list default="true" id="2b6dd105-ee8a-48ef-95cd-95ccabe47f1a" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/src/MutualFriendTemp.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Top10Friends.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Top10Friends.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Top10MutualFriendsTemp.java" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -45,8 +31,8 @@
           <entry key="class" value="16" />
           <entry key="gitattributes" value="1" />
           <entry key="iml" value="1" />
-          <entry key="java" value="7" />
-          <entry key="part-r-00000" value="12" />
+          <entry key="java" value="9" />
+          <entry key="part-r-00000" value="16" />
           <entry key="txt" value="1" />
         </counts>
       </usages-collector>
@@ -54,22 +40,22 @@
         <counts>
           <entry key="CLASS" value="16" />
           <entry key="IDEA_MODULE" value="1" />
-          <entry key="JAVA" value="7" />
-          <entry key="PLAIN_TEXT" value="14" />
+          <entry key="JAVA" value="9" />
+          <entry key="PLAIN_TEXT" value="18" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="8" />
-          <entry key="java" value="2936" />
+          <entry key="java" value="3007" />
           <entry key="part-r-00000" value="1" />
-          <entry key="txt" value="42" />
+          <entry key="txt" value="63" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="2936" />
-          <entry key="PLAIN_TEXT" value="51" />
+          <entry key="JAVA" value="3007" />
+          <entry key="PLAIN_TEXT" value="72" />
         </counts>
       </usages-collector>
     </session>
@@ -89,30 +75,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Top10MutualFriendsTemp.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="63" column="47" selection-start-line="63" selection-start-column="47" selection-end-line="63" selection-end-column="47" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1884#1901#0" expanded="true" />
-                <element signature="e#3115#3132#0" expanded="true" />
-                <element signature="e#3530#3546#0" expanded="true" />
-                <element signature="e#4183#4184#0" expanded="true" />
-                <element signature="e#4223#4224#0" expanded="true" />
-                <element signature="e#4858#4890#1" expanded="true" />
-                <element signature="e#5699#5731#1" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Top10Friends.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="226">
-              <caret line="138" column="44" selection-start-line="138" selection-start-column="44" selection-end-line="138" selection-end-column="44" />
+            <state relative-caret-position="784">
+              <caret line="84" column="33" selection-start-line="84" selection-start-column="33" selection-end-line="84" selection-end-column="33" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#3183#3184#0" expanded="true" />
@@ -171,6 +138,11 @@
               <item name="Big Data Assignment 1" type="b2602c69:ProjectViewProjectNode" />
               <item name="Big Data Assignment 1" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="Big Data Assignment 1" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Big Data Assignment 1" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -191,7 +163,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550718790690" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550733110083" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -303,8 +275,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Top10Friends" />
-        <item itemvalue="Application.MutualFriends" />
         <item itemvalue="Application.Top10MutualFriendsTemp" />
+        <item itemvalue="Application.MutualFriends" />
         <item itemvalue="Application.MutualFriendTemp" />
       </list>
     </recent_temporary>
@@ -320,13 +292,27 @@
       <option name="presentableId" value="Default" />
       <updated>1549581343779</updated>
     </task>
+    <task id="LOCAL-00001" summary="Adding job chaining to find top 10 friends">
+      <created>1550718787066</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1550718787066</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Adding .idea files">
+      <created>1550718802583</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1550718802583</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="808" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26752505" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26752505" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -335,7 +321,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32960895" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3282123" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3282123" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49928468" weight="0.3603352" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -343,7 +329,7 @@
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32891566" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5007153" side_tool="true" weight="0.46368715" />
       <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info active="true" anchor="bottom" id="Messages" order="10" visible="true" weight="0.3282123" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.3282123" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -359,7 +345,20 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Adding job chaining to find top 10 friends" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adding job chaining to find top 10 friends" />
+    <MESSAGE value="Adding .idea files" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adding .idea files" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Top10Friends.java</url>
+          <line>64</line>
+          <properties />
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">
@@ -453,13 +452,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/output2_2/part-r-00000">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///usr/local/Cellar/hadoop/3.1.1/libexec/share/hadoop/client/hadoop-client-api-3.1.1.jar!/org/apache/hadoop/mapreduce/Mapper.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="152">
@@ -509,13 +501,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/output1_2/part-r-00000">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Top10MutualFriendsTemp.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="63" column="47" selection-start-line="63" selection-start-column="47" selection-end-line="63" selection-end-column="47" />
+        <state relative-caret-position="268">
+          <caret line="155" column="52" selection-start-line="154" selection-start-column="12" selection-end-line="155" selection-end-column="52" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1884#1901#0" expanded="true" />
@@ -529,10 +518,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/output1_2/part-r-00000">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/output2_2/part-r-00000">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Top10Friends.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="226">
-          <caret line="138" column="44" selection-start-line="138" selection-start-column="44" selection-end-line="138" selection-end-column="44" />
+        <state relative-caret-position="784">
+          <caret line="84" column="33" selection-start-line="84" selection-start-column="33" selection-end-line="84" selection-end-column="33" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#3183#3184#0" expanded="true" />
