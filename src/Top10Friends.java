@@ -38,22 +38,26 @@ public class Top10Friends {
         }
     }
 
-    public static class Reduce1 extends Reducer<Text, Text, Text, IntWritable>{
+    public static class Reduce1 extends Reducer<Text, Text, Text, Text>{
         public  void reduce(Text key, Iterable<Text> values, Context context) throws IOException,InterruptedException{
             int count = 0;
+            StringBuilder sb  = new StringBuilder();
+            StringBuilder result  = new StringBuilder();
             HashMap<String, Integer> friendCount = new HashMap<>();
             for(Text friends : values){
                 String[] friendsArr  =  friends.toString().split(",");
                 for(String friend: friendsArr){
                     if(friendCount.containsKey(friend)){
                         count++;
+                        sb.append(friend).append(",");
                     }else{
                         friendCount.put(friend,1);
                     }
                 }
 
             }
-            IntWritable fCount= new IntWritable(count);
+            result.append(count).append("\t").append(sb);
+            Text fCount= new Text(result.toString());
             context.write(key, fCount);
 
         }
@@ -66,30 +70,33 @@ public class Top10Friends {
         }
     }
 
-    public static  class  Reduce2 extends  Reducer<IntWritable, Text, Text, IntWritable>{
+    public static  class  Reduce2 extends  Reducer<IntWritable, Text, Text, Text>{
         public void reduce(IntWritable key, Iterable<Text> values,
-                           Reducer<IntWritable, Text, Text, IntWritable>.Context context) throws IOException, InterruptedException{
+                           Context context) throws IOException, InterruptedException{
             // final reduce method to return top 10 mutual friends
-            HashMap<String, Integer> mfMap = new HashMap<>();
+            HashMap<String, String> mfMap = new HashMap<>();
             int count = 1;
             for(Text line : values){
                 String[] fields  =line.toString().split("\t");
                 if(fields.length==1){
                     return;
                 }
-                mfMap.put(fields[0],Integer.parseInt(fields[1]));
+                if(!fields[1].equals("0")){
+                    mfMap.put(fields[0],fields[1]+"\t"+ fields[2]);
+                }
+
             }
 
             Compare value = new Compare(mfMap);
-            TreeMap<String,Integer> sorted = new TreeMap<>(value);
+            TreeMap<String,String> sorted = new TreeMap<>(value);
             sorted.putAll(mfMap);
 
 
 
-           for (Map.Entry<String, Integer> mf : sorted.entrySet()) {
+           for (Map.Entry<String, String> mf : sorted.entrySet()) {
 
                 if (count <= 10) {
-                    context.write(new Text(mf.getKey()), new IntWritable(mf.getValue()));
+                    context.write(new Text(mf.getKey()), new Text(mf.getValue().toString()));
 
                 }
                 else
@@ -102,14 +109,17 @@ public class Top10Friends {
     }
 
     public static class Compare implements Comparator<String>{
-        HashMap<String, Integer> map;
+        HashMap<String, String> map;
 
-        public Compare(HashMap<String, Integer> map){
+        public Compare(HashMap<String, String> map){
             this.map=map;
         }
 
         public int compare(String val1, String val2){
-            if(map.get(val1)<map.get(val2)){
+            String[] mapVal1 = map.get(val1).split("\t");
+            String[] mapVal2 = map.get(val2).split("\t");
+
+            if(Integer.valueOf(mapVal1[0])<Integer.valueOf(mapVal2[0])){
                 return 1;
             }else{
                 return -1;
