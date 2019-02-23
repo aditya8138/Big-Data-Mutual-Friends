@@ -1,6 +1,7 @@
 import org.apache.commons.collections.KeyValue;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
@@ -15,11 +16,9 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
+import org.apache.hadoop.yarn.webapp.hamlet2.Hamlet;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,76 +26,78 @@ public class InMemoryJoin extends Configured implements Tool {
 
     static HashMap<String, String> userMap = new HashMap<>();
 
-    public static class Map extends Mapper<IntWritable, Text, Text, Text> {
-        private Text userIDSet = new Text();
+
+    public static class Map extends Mapper<Text, Text, Text, Text> {
         private Text detailSet = new Text();
+        String details;
 
-
-        @Override
-        protected void map(IntWritable key, Text value, Context context) throws IOException, InterruptedException, FileNotFoundException {
-
+        public void setup(Context context) throws IOException {
             // storing values from user data in hashmap
             Configuration configuration = context.getConfiguration();
-            String path = configuration.get("userData");
-
-            BufferedReader cache = new BufferedReader(new FileReader(path));
-            String input = "";
-            String[] userDataArr;
+            Path path = new Path(configuration.get("userData"));
+            FileSystem fs = FileSystem.get(configuration);
+            BufferedReader cache = new BufferedReader(new InputStreamReader(fs.open(path)));
+            String input;
             while ((input = cache.readLine()) != null) {
                 input = cache.readLine();
-                userDataArr = input.split(",");
-                String userId = userDataArr[0];
-                String requiredData = userDataArr[1] + ": " + userDataArr[5];
-                userMap.put(userId, requiredData);
-            }
-
-            //processing larger dataset
-
-            String[] usrlist = value.toString().split("\t");
-            if (usrlist.length == 1) {
-                return;
-            }
-            String userId = usrlist[0];
-            String friendsList = usrlist[1];
-            String[] friendsId = friendsList.split(",");
-            StringBuilder sb = new StringBuilder("[");
-            for (String friend : friendsId) {
-                if (userMap.containsKey(friend)) {
-                    sb.append(userMap.get(friend));
-                    sb.append(",");
+                if(input!=null){
+                    String[] userDataArr = input.split(",");
+                    String userId = userDataArr[0];
+                    String requiredData = userDataArr[1] + ": " + userDataArr[5];
+                    userMap.put(userId, requiredData);
                 }
             }
-            sb.append("]");
-            detailSet.set(sb.toString());
-            context.write(userIDSet, detailSet);
+        }
+
+        @Override
+        protected void map(Text key, Text value, Context context) throws IOException, InterruptedException {
+            //processing larger dataset
+
+            String[] usrlist = value.toString().split(",");
+
+            if(userMap!=null && !userMap.isEmpty()){
+                for(String usr : usrlist){
+                    if (userMap.containsKey(usr)) {
+                        details=userMap.get(usr);
+                        userMap.remove(usr);
+                        detailSet.set(details);
+                        context.write(key, new Text(details));
+                    }
+                }
+            }
         }
     }
 
     public static class Reduce extends Reducer<Text, Text, Text, Text> {
+
         public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
-            HashMap<String, String> valMap = new HashMap<>();
-            for (Text line : values) {
-                String[] fields = line.toString().split("\t");
-                if (fields.length == 1) {
-                    return;
+           Text res = new Text();
+           StringBuilder sb = new StringBuilder();
+           for (Text value : values){
+                if(sb.length()==0){
+                    sb.append("[");
                 }
-                valMap.put(fields[0], fields[1]);
-
-
+                sb.append(value.toString());
+                sb.append(",");
             }
 
-            for (java.util.Map.Entry<String, String> mf : valMap.entrySet()) {
-                context.write(new Text(mf.getKey()), new Text(mf.getValue()));
-            }
+            sb.setLength(sb.length()-1);
+            sb.append("]");
+            res.set(sb.toString());
+            context.write(key,res);
+
         }
     }
 
-    public static void main(String[] args) throws Exception {
+
+    public static void main(String args[]) throws Exception {
         int res = ToolRunner.run(new Configuration(), new InMemoryJoin(), args);
         System.exit(res);
+
     }
 
-    public int run (String[] args) throws Exception {
+    public int run(String[] args) throws Exception {
+
         Configuration conf1 = new Configuration();
         if (args.length != 6) {
             System.err.println("Use: InMemoryJoin <userA> <userB> <inputFile> <outputDirectory>");
@@ -105,41 +106,37 @@ public class InMemoryJoin extends Configured implements Tool {
 
         conf1.set("userA", args[0]);
         conf1.set("userB", args[1]);
+        Job job1 = new Job(conf1, "mutualFriends");
+        job1.setJarByClass(InMemoryJoin.class);
+        job1.setMapperClass(MutualFriends.Map.class);
+        job1.setReducerClass(MutualFriends.Reduce.class);
+        job1.setOutputKeyClass(Text.class);
+        job1.setOutputValueClass(Text.class);
+        FileInputFormat.addInputPath(job1, new Path(args[4]));
+        FileOutputFormat.setOutputPath(job1, new Path(args[2]));
 
 
-        Job job = new Job(conf1, "mutualfriend");
-        job.setJarByClass(InMemoryJoin.class);
-        job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(Text.class);
-        job.setMapperClass(MutualFriends.Map.class);
-        job.setReducerClass(MutualFriends.Reduce.class);
-//        job.setInputFormatClass(TextInputFormat.class);
-//        job.setOutputFormatClass(TextOutputFormat.class);
-
-        FileInputFormat.addInputPath(job, new Path(args[4]));
-        Path path = new Path(args[2]);
-        FileOutputFormat.setOutputPath(job, path);
-
-        int success = job.waitForCompletion(true)?0:1;
-
-        Configuration conf2 = getConf();
+        int success = job1.waitForCompletion(true)?0:1;
+        Configuration conf2 = new Configuration();
         conf2.set("userData", args[3]);
+        @SuppressWarnings("deprication")
         Job job2 = new Job(conf2, "inMemoryJoin");
         job2.setJarByClass(InMemoryJoin.class);
-        job2.setMapperClass(InMemoryJoin.Map.class);
-        job2.setReducerClass(InMemoryJoin.Reduce.class);
+        job2.setInputFormatClass(KeyValueTextInputFormat.class);
+        job2.setMapperClass(Map.class);
+        job2.setReducerClass(Reduce.class);
+        job2.setOutputKeyClass(Text.class);
+        job2.setOutputValueClass(Text.class);
         job2.setMapOutputKeyClass(Text.class);
         job2.setMapOutputValueClass(Text.class);
-        job.setInputFormatClass(KeyValueTextInputFormat.class);
-        job.setOutputFormatClass(TextOutputFormat.class);
 
-        FileInputFormat.addInputPath(job2, path);
+        FileInputFormat.addInputPath(job2, new Path(args[2]));
         FileOutputFormat.setOutputPath(job2, new Path(args[5]));
 
-        success = job.waitForCompletion(true)?0:1;
-
-
-        return success;
-
+        boolean success2 = job2.waitForCompletion(true);
+        if (success2) {
+            System.exit(0);
+        } else System.exit(1);
+        return  success;
     }
 }
